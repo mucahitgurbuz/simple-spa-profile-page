@@ -69,7 +69,7 @@ body {
 
 #body {
   grid-area: body;
-  padding: 10px;
+  padding: 20px 200px;
   background-color: var(--light-gray);
   z-index: 1;
   overflow: auto;
@@ -99,7 +99,7 @@ body {
   #app {
     grid-template-rows: 64px 1fr 24px;
     grid-template-columns: 300px 1fr;
-    grid-template-areas: "header header" "menu body" "footer footer";
+    grid-template-areas: "header header" "body body" "footer footer";
   }
   #header {
     flex-direction: row;
@@ -270,41 +270,6 @@ body {
   color: var(--light-gray);
 }
 
-.sidebar-menu {
-  width: 100%;
-  margin: 0;
-  padding-left: 0;
-  list-style-type: none;
-  justify-content: flex-start;
-  color: #fff;
-  font-weight: 600;
-}
-
-.sidebar-menu__logo {
-  height: 90px !important;
-  align-self: center;
-  margin-top: 20px;
-}
-
-.sidebar-menu__logo img {
-  height: 75px;
-  width: 75px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.sidebar-menu__identity {
-  padding-bottom: 5px;
-  color: var(--light-gray);
-  font-size: 16px;
-}
-
-.sidebar-menu__title {
-  padding-bottom: 20px;
-  color: var(--light-gray);
-  font-size: 14px;
-}
-
 .header__profile a {
   color: var(--light-gray);
   padding-left: 10px;
@@ -370,4 +335,8 @@ body {
 
 .ant-slider {
   padding: 0 !important;
+}
+
+.profile__header {
+  background-color: #fff;
 }
