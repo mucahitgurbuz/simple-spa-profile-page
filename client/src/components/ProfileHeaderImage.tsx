@@ -9,7 +9,12 @@ const ProfileHeaderImage: React.SFC<ProfileHeaderImageProps> = ({
   coverSrc,
   profileSrc
 }) => {
-  return <img src={coverSrc} />;
+  return (
+    <div>
+      <img className="profile__header-cover" src={coverSrc} />
+      <img className="profile__header-pic" src={profileSrc} />
+    </div>
+  );
 };
 
 export default ProfileHeaderImage;
