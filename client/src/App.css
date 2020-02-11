@@ -69,7 +69,7 @@ body {
 
 #body {
   grid-area: body;
-  padding: 0px 100px;
+  padding: 0px 20%;
   background-color: var(--light-gray);
   z-index: 1;
   overflow: auto;
@@ -415,7 +415,31 @@ body {
   border: none;
   background: none;
 }
+
+.profile__module-header-add-text {
+  padding: 0;
+  margin-left: 20px;
+  border: none;
+  background: none;
+}
+
 .profile__module-header-add:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.profile__module-header-add-text:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.profile__module-content-edit {
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.profile__module-content-edit:hover {
   color: var(--accent-color);
   cursor: pointer;
 }
@@ -423,6 +447,7 @@ body {
 .profile__module-content {
   padding: 10px 20px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .profile__module-content-logo {
@@ -436,6 +461,8 @@ body {
 
 .profile__module-content-title {
   font-weight: bold;
+  justify-content: space-between;
+  display: flex;
 }
 
 .profile__module-content-subtitle {
@@ -455,4 +482,185 @@ body {
 .profile__module-content-description {
   font-size: 12px;
   padding-top: 5px;
+}
+
+.profile__module-content-group-header {
+  display: flex;
+  flex: 0 0 100%;
+}
+
+.profile__module-content-position {
+  flex: 0 0 100%;
+  padding-left: 80px;
+  position: relative;
+  margin: 0;
+  padding-bottom: 1em;
+}
+
+.profile__module-content-position:before {
+  background-color: #c00;
+  width: 2px;
+  content: "";
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 23px;
+}
+
+.profile__module-content-info {
+  flex-grow: 1;
+}
+
+.profile__module-showmore button {
+  border: none;
+  background: none;
+  color: var(--primary-color);
+}
+
+.profile__module-showmore button:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.profile__module-showmore {
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+.profile__module-showmore hr {
+  opacity: 0.5;
+}
+
+.profile__module-skill {
+  padding: 20px;
+}
+
+.profile__module-skill-title {
+  font-weight: bold;
+}
+
+.profile__module-skill-title span {
+  color: gray;
+  font-size: 12px;
+}
+
+.profile__module-skill-title span:before {
+  content: "•";
+  margin: 0 5px;
+  color: gray;
+}
+
+.profile__module-skill-endorsement {
+  display: flex;
+}
+
+.profile__module-skill-endorsement-by {
+  flex: 50%;
+  display: flex;
+  padding-right: 20px;
+}
+
+.profile__module-skill-endorsement-by-logo {
+  flex: 0 0 30px;
+  display: flex;
+  align-items: center;
+}
+
+.profile__module-skill-endorsement-by-logo img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.profile__module-skill-endorsement-by-text {
+  padding-left: 10px;
+  font-size: 12px;
+}
+
+.profile__module-skill-endorsement-by-text span {
+  font-weight: bold;
+}
+
+.profile__module-accomplishement {
+  display: flex;
+  padding: 20px;
+}
+
+.profile__module-accomplishement-count {
+  flex: 0 0 40px;
+}
+
+.profile__module-accomplishement-count span {
+  float: right;
+  font-size: 28px;
+  color: var(--primary-color);
+}
+
+.profile__module-accomplishement-text {
+  flex-grow: 1;
+  padding-left: 10px;
+}
+
+.profile__module-accomplishement-title {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.profile__module-accomplishement-content span:before {
+  content: "•";
+  margin: 0 5px;
+  color: gray;
+}
+
+.profile__module-accomplishement-title button {
+  font-size: 16px;
+  float: right;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.profile__module-accomplishement-title button:hover {
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+.profile__module-interest {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile__module-interest-item {
+  flex: 0 0 50%;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  display: flex;
+}
+
+.profile__module-interest-item-logo {
+  flex: 0 0 50px;
+  display: flex;
+  align-items: center;
+}
+
+.profile__module-interest-item-logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.profile__module-interest-item-text {
+  padding-left: 10px;
+  font-size: 12px;
+}
+
+.profile__module-interest-item-title {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.profile__module-interest-item-member {
+  color: gray;
 }

@@ -24,7 +24,7 @@ const Home: React.SFC<{}> = () => (
       type="skill"
       addMore={true}
       editable={true}
-      showMore={false}
+      showMore={true}
       seeAll={false}
     />
     <ProfileModule
@@ -39,7 +39,7 @@ const Home: React.SFC<{}> = () => (
       addMore={true}
       editable={true}
       showMore={false}
-      seeAll={false}
+      seeAll={true}
     />
   </React.Fragment>
 );
