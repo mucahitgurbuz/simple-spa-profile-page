@@ -10,24 +10,11 @@ import {
 } from "sequelize-typescript";
 import User from "./user";
 
-const ownerConversion = {
-  profilePhoto: "profileOwner"
-  // more
-};
-
 @Table
-export default class Photo extends Model<Photo> {
+export default class Publication extends Model<Publication> {
   @AllowNull(false)
   @Column(DataType.STRING)
-  originalUrl: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  thumbnailUrl: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  of: string;
+  title: string;
 
   @Column
   ofId: number;
@@ -42,12 +29,9 @@ export default class Photo extends Model<Photo> {
 
   @BelongsTo(() => User, {
     constraints: false,
-    as: "profilePhoto",
+    as: "publication",
     onDelete: "cascade",
     foreignKey: "ofId"
   })
   profileOwner: User;
-
-  public getOwner = (options: any = {}) =>
-    this.$get(ownerConversion[this.get("of")], options);
 }

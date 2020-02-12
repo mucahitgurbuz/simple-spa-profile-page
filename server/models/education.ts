@@ -10,27 +10,46 @@ import {
 } from "sequelize-typescript";
 import User from "./user";
 
-const ownerConversion = {
-  profilePhoto: "profileOwner"
-  // more
-};
-
 @Table
-export default class Photo extends Model<Photo> {
+export default class Education extends Model<Education> {
   @AllowNull(false)
   @Column(DataType.STRING)
-  originalUrl: string;
+  institute: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  thumbnailUrl: string;
+  degree: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  of: string;
+  department: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  gpa: string;
+
+  @AllowNull(false)
+  @Column(DataType.BIGINT)
+  start: number;
+
+  @AllowNull(true)
+  @Column(DataType.BIGINT)
+  finish: number;
 
   @Column
   ofId: number;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  description: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  address: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  logo: string;
 
   @CreatedAt
   @Column
@@ -42,12 +61,9 @@ export default class Photo extends Model<Photo> {
 
   @BelongsTo(() => User, {
     constraints: false,
-    as: "profilePhoto",
+    as: "education",
     onDelete: "cascade",
     foreignKey: "ofId"
   })
   profileOwner: User;
-
-  public getOwner = (options: any = {}) =>
-    this.$get(ownerConversion[this.get("of")], options);
 }

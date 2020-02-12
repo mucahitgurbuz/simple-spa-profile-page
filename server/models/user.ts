@@ -1,17 +1,37 @@
-import { Table, Scopes, Model, Column, AllowNull, HasOne, DataType, IsEmail, Unique, Default, BeforeCreate, BeforeBulkCreate, BeforeUpdate, BeforeBulkUpdate, DefaultScope } from 'sequelize-typescript';
-import bcrypt from 'bcrypt';
+import {
+  Table,
+  Scopes,
+  Model,
+  Column,
+  AllowNull,
+  HasOne,
+  HasMany,
+  DataType,
+  IsEmail,
+  Unique,
+  Default,
+  BeforeCreate,
+  BeforeBulkCreate,
+  BeforeUpdate,
+  BeforeBulkUpdate,
+  DefaultScope
+} from "sequelize-typescript";
+import bcrypt from "bcrypt";
 
-import Photo from './photo';
-import { AssociationOptions, AssociationScope } from 'sequelize'
+import Photo from "./photo";
+import Experience from "./experience";
+import Education from "./education";
+import Publication from "./publication";
+import { AssociationOptions, AssociationScope } from "sequelize";
 
 // const bcrypt = require('bcrypt');
 
 function capitalizeFirstLetterEachWord(string: string): string {
-  if (string.split(' ').length > 1) {
+  if (string.split(" ").length > 1) {
     return string
-      .split(' ')
+      .split(" ")
       .map(capitalizeFirstLetterEachWord)
-      .join(' ');
+      .join(" ");
   }
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
@@ -20,15 +40,18 @@ interface AssociationOptionsHasOne extends AssociationOptions {
   scope?: AssociationScope;
 }
 
+interface AssociationOptionsHasMany extends AssociationOptions {
+  scope?: AssociationScope;
+}
 
 @DefaultScope({
-  attributes: { exclude: ['password'] },
-  include: [() => Photo],
+  attributes: { exclude: ["password"] },
+  include: [() => Photo]
 })
 @Scopes({
   withPassword: {
     attributes: {
-      include: ['password']
+      include: ["password"]
     }
   }
 })
@@ -44,7 +67,7 @@ export default class User extends Model<User> {
 
   @Column(DataType.VIRTUAL)
   get displayName(): string {
-    return `${this.getDataValue('fName')} ${this.getDataValue('lName')}`;
+    return `${this.getDataValue("fName")} ${this.getDataValue("lName")}`;
   }
 
   @IsEmail
@@ -53,20 +76,19 @@ export default class User extends Model<User> {
   @Column(DataType.STRING)
   email: string;
 
-
   @AllowNull(false)
   @Unique
   @Column(DataType.STRING)
   set userCode(value: string) {
-    this.setDataValue('userCode', value.toLowerCase());
+    this.setDataValue("userCode", value.toLowerCase());
   }
   get userCode(): string {
-    return this.getDataValue('userCode');
+    return this.getDataValue("userCode");
   }
 
   @AllowNull(false)
-  @Default('pending')
-  @Column(DataType.ENUM('active', 'inactive', 'pending'))
+  @Default("pending")
+  @Column(DataType.ENUM("active", "inactive", "pending"))
   status: string;
 
   @AllowNull(false)
@@ -83,13 +105,17 @@ export default class User extends Model<User> {
         instance.password = hash;
       })
       .catch(err => {
-        throw new Error('Could not hash.');
+        throw new Error("Could not hash.");
       });
   }
 
   @BeforeBulkUpdate
   @BeforeUpdate
-  public static updateHash({ attributes }: { attributes: { password?: string } }) {
+  public static updateHash({
+    attributes
+  }: {
+    attributes: { password?: string };
+  }) {
     if (attributes.password) {
       return bcrypt
         .hash(attributes.password, 10)
@@ -97,10 +123,10 @@ export default class User extends Model<User> {
           attributes.password = hash;
         })
         .catch(err => {
-          throw new Error('Could not hash.');
+          throw new Error("Could not hash.");
         });
     }
-    return Promise.resolve()
+    return Promise.resolve();
   }
 
   @BeforeCreate
@@ -112,14 +138,34 @@ export default class User extends Model<User> {
     instance.lName = capitalizeFirstLetterEachWord(instance.lName);
   }
 
-
   @HasOne(() => Photo, {
-    foreignKey: 'ofId',
+    foreignKey: "ofId",
     constraints: false,
     scope: {
-      of: 'profilePhoto',
+      of: "profilePhoto"
     },
-    onDelete: 'cascade'
+    onDelete: "cascade"
   } as AssociationOptionsHasOne)
-  photo: Photo
+  photo: Photo;
+
+  @HasMany(() => Experience, {
+    foreignKey: "ofId",
+    constraints: false,
+    onDelete: "cascade"
+  } as AssociationOptionsHasMany)
+  experiences: Experience[];
+
+  @HasMany(() => Education, {
+    foreignKey: "ofId",
+    constraints: false,
+    onDelete: "cascade"
+  } as AssociationOptionsHasMany)
+  educations: Education[];
+
+  @HasMany(() => Publication, {
+    foreignKey: "ofId",
+    constraints: false,
+    onDelete: "cascade"
+  } as AssociationOptionsHasMany)
+  publications: Publication[];
 }
