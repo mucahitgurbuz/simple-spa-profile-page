@@ -12,6 +12,9 @@ import { UserStore } from "../store/userStore";
 
 import ProfileModuleHeader from "./ProfileModuleHeader";
 
+import styled from "styled-components";
+import theme from "styled-theming";
+
 library.add(faPen, faChevronDown);
 
 export interface ProfileModuleProps {
@@ -38,6 +41,24 @@ const ProfileModule = inject(
       showMore,
       seeAll
     }: ProfileModuleProps) => {
+      const backgroundColor = theme("mode", {
+        light: "var(--white)",
+        dark: "var(--shadow)"
+      });
+
+      const BackgroundWrapper = styled.div`
+        background-color: ${backgroundColor};
+      `;
+
+      const textColor = theme("mode", {
+        light: "var(--primary-color)",
+        dark: "var(--white)"
+      });
+
+      const TextWrapper = styled.div`
+        text: ${textColor};
+      `;
+
       if (!userStore || !commonStore) {
         return null;
       }
@@ -94,7 +115,7 @@ const ProfileModule = inject(
         }
       }, [] as any);
 
-      const groupedEducations = educations.reduce((a: any, c: any) => {
+      const groupedEducations = educations.reduce((a, c) => {
         if (a.some((el: any) => el.institute === c.institute)) {
           a.forEach((e: any) => {
             if (e.institute === c.institute) {
@@ -143,7 +164,7 @@ const ProfileModule = inject(
         { title: "Awards", contents: awards }
       ];
 
-      const groupedSkills = skills.map((skill: any) => {
+      const groupedSkills = skills.map(skill => {
         return {
           title: skill.title,
           endorsedBy: skill.endorsements.map((endorsement: any) => {
@@ -162,11 +183,11 @@ const ProfileModule = inject(
             switch (type) {
               case "experience":
                 return (
-                  <React.Fragment>
+                  <BackgroundWrapper>
                     <ProfileModuleHeader
                       type={type}
                       title="Experience"
-                      addMore={true}
+                      addMore={addMore}
                     />
                     {groupedExperiences.map((e: any) =>
                       e.positions.length > 1 ? (
@@ -245,15 +266,15 @@ const ProfileModule = inject(
                         </div>
                       )
                     )}
-                  </React.Fragment>
+                  </BackgroundWrapper>
                 );
               case "education":
                 return (
-                  <React.Fragment>
+                  <BackgroundWrapper>
                     <ProfileModuleHeader
                       type={type}
                       title="Education"
-                      addMore={true}
+                      addMore={addMore}
                     />
                     {groupedEducations.map((e: any) =>
                       e.degrees.length > 1 ? (
@@ -329,18 +350,18 @@ const ProfileModule = inject(
                         </div>
                       )
                     )}
-                  </React.Fragment>
+                  </BackgroundWrapper>
                 );
               case "skill":
                 return (
-                  <React.Fragment>
+                  <BackgroundWrapper>
                     <ProfileModuleHeader
                       type={type}
                       title="Skills & Endorsements"
-                      addMore={true}
+                      addMore={addMore}
                     />
                     {groupedSkills.length
-                      ? groupedSkills.slice(0, 2).map((groupedSkill: any) => (
+                      ? groupedSkills.slice(0, 2).map(groupedSkill => (
                           <div
                             key={groupedSkill.title}
                             className="profile__module-skill"
@@ -395,22 +416,22 @@ const ProfileModule = inject(
                         ))
                       : null}
                     {showMore ? (
-                      <div className="profile__module-showmore">
+                      <TextWrapper className="profile__module-showmore">
                         <hr />
                         <button>
                           Show more <FontAwesomeIcon icon="chevron-down" />
                         </button>
-                      </div>
+                      </TextWrapper>
                     ) : null}
-                  </React.Fragment>
+                  </BackgroundWrapper>
                 );
               case "accomplishement":
                 return (
-                  <React.Fragment>
+                  <BackgroundWrapper>
                     <ProfileModuleHeader
                       type={type}
                       title="Accomplishements"
-                      addMore={true}
+                      addMore={addMore}
                     />
                     {accomplishements.length
                       ? accomplishements.map(accomplishement => (
@@ -442,11 +463,11 @@ const ProfileModule = inject(
                           </div>
                         ))
                       : null}
-                  </React.Fragment>
+                  </BackgroundWrapper>
                 );
               case "interest":
                 return (
-                  <React.Fragment>
+                  <BackgroundWrapper>
                     <ProfileModuleHeader
                       type={type}
                       title="Interests"
@@ -454,7 +475,7 @@ const ProfileModule = inject(
                     />
                     {interests.length ? (
                       <div className="profile__module-interest">
-                        {interests.map((interest: any) => (
+                        {interests.map(interest => (
                           <div className="profile__module-interest-item">
                             <div className="profile__module-interest-item-logo">
                               <img src={interest.logo} />
@@ -472,12 +493,12 @@ const ProfileModule = inject(
                       </div>
                     ) : null}
                     {seeAll ? (
-                      <div className="profile__module-showmore">
+                      <TextWrapper className="profile__module-showmore">
                         <hr />
                         <button>See all</button>
-                      </div>
+                      </TextWrapper>
                     ) : null}
-                  </React.Fragment>
+                  </BackgroundWrapper>
                 );
               default:
                 return null;

@@ -1,4 +1,6 @@
 import React from "react";
+import styled from "styled-components";
+import theme from "styled-theming";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -15,17 +17,27 @@ export interface ProfileModuleHeaderAddProps {
 const ProfileModuleHeaderAdd: React.SFC<ProfileModuleHeaderAddProps> = ({
   type
 }) => {
+  const color = theme("mode", {
+    light: "var(--primary-color)",
+    dark: "white"
+  });
+
+  const Wrapper = styled.div`
+    color: ${color};
+  `;
   return type === "skill" ? (
-    <div>
+    <Wrapper>
       <button className="profile__module-header-add-text">
         Add a new skill
       </button>
       <button className="profile__module-header-add-text">
         <FontAwesomeIcon icon="pen" />
       </button>
-    </div>
+    </Wrapper>
   ) : (
-    <button className="profile__module-header-add">+</button>
+    <Wrapper>
+      <button className="profile__module-header-add">+</button>
+    </Wrapper>
   );
 };
 

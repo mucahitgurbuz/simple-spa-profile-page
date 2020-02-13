@@ -8,6 +8,8 @@
     "@fortawesome/react-fontawesome": "^0.1.8",
     "@types/crypto-js": "^3.1.43",
     "@types/react-router-dom": "^4.3.1",
+    "@types/styled-components": "^4.1.8",
+    "@types/styled-theming": "^2.2.2",
     "@types/superagent": "^3.8.4",
     "antd": "^3.3.3",
     "crypto-js": "^3.1.9-1",
@@ -25,6 +27,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.1.5",
     "react-scripts-ts": "^2.17.0",
+    "styled-components": "^5.0.1",
+    "styled-theming": "^2.2.0",
     "superagent": "^3.8.2"
   },
   "scripts": {
@@ -37,7 +41,7 @@
     "@types/antd": "^1.0.0",
     "@types/node": "^10.9.2",
     "@types/react": "^16.4.12",
-    "@types/react-dom": "^16.0.7",
+    "@types/react-dom": "^16.4.12",
     "babel-plugin-import": "^1.6.7",
     "ts-import-plugin": "^1.5.4",
     "typescript": "^3.0.1"
