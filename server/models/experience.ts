@@ -9,13 +9,10 @@ import {
   BelongsTo
 } from "sequelize-typescript";
 import User from "./user";
+import Company from "./company";
 
 @Table
 export default class Experience extends Model<Experience> {
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  company: string;
-
   @AllowNull(false)
   @Column(DataType.STRING)
   position: string;
@@ -39,10 +36,6 @@ export default class Experience extends Model<Experience> {
   @Column(DataType.STRING)
   address: string;
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  logo: string;
-
   @CreatedAt
   @Column
   createdAt: Date;
@@ -58,4 +51,12 @@ export default class Experience extends Model<Experience> {
     foreignKey: "ofId"
   })
   profileOwner: User;
+
+  @BelongsTo(() => Company, {
+    constraints: false,
+    as: "company",
+    onDelete: "cascade",
+    foreignKey: "companyId"
+  })
+  companyOwner: Company;
 }

@@ -15,7 +15,16 @@ const ProfileHeader = inject("userStore")(
     if (!userStore) {
       return null;
     }
-    const { photo } = userStore.self!;
+
+    const { displayName, photo, experiences, educations } = userStore.self!;
+
+    const currentPosition: any = experiences.filter(
+      (experience: any) => experience.finish === null
+    )[0];
+    const sortedEducation: any = educations.sort(
+      (a: any, b: any) => a.start - b.start
+    );
+
     return (
       <div className="profile__header">
         <ProfileHeaderImage
@@ -23,14 +32,14 @@ const ProfileHeader = inject("userStore")(
           profileSrc={photo.thumbnailUrl}
         />
         <ProfileHeaderTitle
-          name="Hande Adıgüzel"
-          position="Software Development Team Lead"
-          company="OPLOG Operational Logistic"
-          companyIcon={photo.thumbnailUrl}
-          address="Seattle, Washington"
+          name={displayName}
+          position={currentPosition.position}
+          company={currentPosition.company.title}
+          companyIcon={currentPosition.company.logo}
+          address={currentPosition.address}
           connectionCount={412}
-          education="Bilkent University"
-          educationIcon={photo.thumbnailUrl}
+          education={sortedEducation[0].institute}
+          educationIcon={sortedEducation[0].logo}
         />
       </div>
     );

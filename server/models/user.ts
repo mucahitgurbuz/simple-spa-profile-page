@@ -22,6 +22,10 @@ import Photo from "./photo";
 import Experience from "./experience";
 import Education from "./education";
 import Publication from "./publication";
+import Award from "./award";
+import Interest from "./interest";
+import Skill from "./skill";
+import Endorsement from "./endorsement";
 import { AssociationOptions, AssociationScope } from "sequelize";
 
 // const bcrypt = require('bcrypt');
@@ -168,4 +172,32 @@ export default class User extends Model<User> {
     onDelete: "cascade"
   } as AssociationOptionsHasMany)
   publications: Publication[];
+
+  @HasMany(() => Award, {
+    foreignKey: "ofId",
+    constraints: false,
+    onDelete: "cascade"
+  } as AssociationOptionsHasMany)
+  awards: Award[];
+
+  @HasMany(() => Interest, {
+    foreignKey: "ofId",
+    constraints: false,
+    onDelete: "cascade"
+  } as AssociationOptionsHasMany)
+  interests: Interest[];
+
+  @HasMany(() => Skill, {
+    foreignKey: "ofId",
+    constraints: false,
+    onDelete: "cascade"
+  } as AssociationOptionsHasMany)
+  skills: Skill[];
+
+  @HasMany(() => Endorsement, {
+    foreignKey: "endorsedId",
+    constraints: false,
+    onDelete: "cascade"
+  } as AssociationOptionsHasMany)
+  endorsements: Endorsement[];
 }
