@@ -24,7 +24,10 @@ export interface ProfileModuleProps {
   userStore?: UserStore;
 }
 
-const ProfileModule = inject("commonStore", "userStore")(
+const ProfileModule = inject(
+  "commonStore",
+  "userStore"
+)(
   observer(
     ({
       commonStore,
@@ -48,98 +51,92 @@ const ProfileModule = inject("commonStore", "userStore")(
         interests
       } = userStore.self!;
 
-      const groupedExperiences = experiences.reduce(
-        (a: any, c: any) => {
-          if (a.some((el: any) => el.companyId === c.companyId)) {
-            a.forEach((e: any) => {
-              if (e.companyId === c.companyId) {
-                e.totalYear =
-                  e.totalYear +
-                  (c.finish
-                    ? new Date(c.finish).getFullYear()
-                    : new Date().getFullYear()) -
-                  new Date(c.start).getFullYear();
-                e.positions.push({
-                  title: c.position,
-                  start: c.start,
-                  finish: c.finish ? c.finish : null,
-                  location: c.location,
-                  description: c.description
-                });
-              }
-            });
-            return a;
-          } else {
-            a.push({
-              company: c.company.title,
-              companyLogo: c.company.logo,
-              companyId: c.companyId,
-              totalYear:
+      const groupedExperiences = experiences.reduce((a, c) => {
+        if (a.some((el: any) => el.companyId === c.companyId)) {
+          a.forEach((e: any) => {
+            if (e.companyId === c.companyId) {
+              e.totalYear =
+                e.totalYear +
                 (c.finish
                   ? new Date(c.finish).getFullYear()
-                  : new Date().getFullYear()) - new Date(c.start).getFullYear(),
-              positions: [
-                {
-                  title: c.position,
-                  start: c.start,
-                  finish: c.finish ? c.finish : null,
-                  description: c.description,
-                  location: c.location
-                }
-              ]
-            });
-            return a;
-          }
-        },
-        [] as any
-      );
+                  : new Date().getFullYear()) -
+                new Date(c.start).getFullYear();
+              e.positions.push({
+                title: c.position,
+                start: c.start,
+                finish: c.finish ? c.finish : null,
+                location: c.location,
+                description: c.description
+              });
+            }
+          });
+          return a;
+        } else {
+          a.push({
+            company: c.company.title,
+            companyLogo: c.company.logo,
+            companyId: c.companyId,
+            totalYear:
+              (c.finish
+                ? new Date(c.finish).getFullYear()
+                : new Date().getFullYear()) - new Date(c.start).getFullYear(),
+            positions: [
+              {
+                title: c.position,
+                start: c.start,
+                finish: c.finish ? c.finish : null,
+                description: c.description,
+                location: c.location
+              }
+            ]
+          });
+          return a;
+        }
+      }, [] as any);
 
-      const groupedEducations = educations.reduce(
-        (a: any, c: any) => {
-          if (a.some((el: any) => el.institute === c.institute)) {
-            a.forEach((e: any) => {
-              if (e.institute === c.institute) {
-                e.totalYear =
-                  e.totalYear +
-                  (c.finish
-                    ? new Date(c.finish).getFullYear()
-                    : new Date().getFullYear()) -
-                  new Date(c.start).getFullYear();
-                e.degrees.push({
-                  title: c.degree,
-                  start: c.start,
-                  department: c.department,
-                  gpa: c.gpa,
-                  finish: c.finish ? c.finish : null,
-                  description: c.description
-                });
-              }
-            });
-            return a;
-          } else {
-            a.push({
-              institute: c.institute,
-              logo: c.logo,
-              totalYear:
+      const groupedEducations = educations.reduce((a: any, c: any) => {
+        if (a.some((el: any) => el.institute === c.institute)) {
+          a.forEach((e: any) => {
+            if (e.institute === c.institute) {
+              e.totalYear =
+                e.totalYear +
                 (c.finish
                   ? new Date(c.finish).getFullYear()
-                  : new Date().getFullYear()) - new Date(c.start).getFullYear(),
-              degrees: [
-                {
-                  title: c.degree,
-                  start: c.start,
-                  finish: c.finish ? c.finish : null,
-                  description: c.description,
-                  department: c.department,
-                  gpa: c.gpa
-                }
-              ]
-            });
-            return a;
-          }
-        },
-        [] as any
-      );
+                  : new Date().getFullYear()) -
+                new Date(c.start).getFullYear();
+              e.degrees.push({
+                title: c.degree,
+                start: c.start,
+                department: c.department,
+                gpa: c.gpa,
+                finish: c.finish ? c.finish : null,
+                description: c.description
+              });
+            }
+          });
+          return a;
+        } else {
+          a.push({
+            institute: c.institute,
+            logo: c.logo,
+            totalYear:
+              (c.finish
+                ? new Date(c.finish).getFullYear()
+                : new Date().getFullYear()) - new Date(c.start).getFullYear(),
+            degrees: [
+              {
+                title: c.degree,
+                start: c.start,
+                finish: c.finish ? c.finish : null,
+                description: c.description,
+                department: c.department,
+                gpa: c.gpa
+              }
+            ]
+          });
+          return a;
+        }
+      }, [] as any);
 
       const accomplishements = [
         { title: "Publications", contents: publications },
@@ -171,53 +168,10 @@ const ProfileModule = inject("commonStore", "userStore")(
                       title="Experience"
                       addMore={true}
                     />
-                    {groupedExperiences.map(
-                      (e: any) =>
-                        e.positions.length > 1 ? (
-                          <div className="profile__module-content">
-                            <div className="profile__module-content-group-header">
-                              <div className="profile__module-content-logo">
-                                {e.companyLogo ? (
-                                  <img src={e.companyLogo} />
-                                ) : null}
-                              </div>
-                              <div className="profile__module-content-info">
-                                <div className="profile__module-content-title">
-                                  {e.company}
-                                </div>
-                                <div className="profile__module-content-subtitle">
-                                  {e.totalYear} years
-                                </div>
-                              </div>
-                            </div>
-                            {e.positions.map((pos: any) => (
-                              <div className="profile__module-content-position">
-                                <div className="profile__module-content-title">
-                                  <span>{pos.title}</span>
-                                  {editable ? (
-                                    <button className="profile__module-content-edit">
-                                      <FontAwesomeIcon icon="pen" />
-                                    </button>
-                                  ) : null}
-                                </div>
-
-                                <div className="profile__module-content-time">
-                                  {new Date(pos.start).getFullYear()} -{" "}
-                                  {pos.finish !== null
-                                    ? new Date(pos.finish).getFullYear()
-                                    : "Present"}
-                                </div>
-                                <div className="profile__module-content-location">
-                                  {pos.location}
-                                </div>
-                                <div className="profile__module-content-description">
-                                  {pos.description}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="profile__module-content">
+                    {groupedExperiences.map((e: any) =>
+                      e.positions.length > 1 ? (
+                        <div className="profile__module-content">
+                          <div className="profile__module-content-group-header">
                             <div className="profile__module-content-logo">
                               {e.companyLogo ? (
                                 <img src={e.companyLogo} />
@@ -225,33 +179,71 @@ const ProfileModule = inject("commonStore", "userStore")(
                             </div>
                             <div className="profile__module-content-info">
                               <div className="profile__module-content-title">
-                                <span>{e.positions[0].title}</span>
+                                {e.company}
+                              </div>
+                              <div className="profile__module-content-subtitle">
+                                {e.totalYear} years
+                              </div>
+                            </div>
+                          </div>
+                          {e.positions.map((pos: any) => (
+                            <div className="profile__module-content-position">
+                              <div className="profile__module-content-title">
+                                <span>{pos.title}</span>
                                 {editable ? (
                                   <button className="profile__module-content-edit">
                                     <FontAwesomeIcon icon="pen" />
                                   </button>
                                 ) : null}
                               </div>
-                              <div className="profile__module-content-subtitle">
-                                {e.company}
-                              </div>
+
                               <div className="profile__module-content-time">
-                                {new Date(e.positions[0].start).getFullYear()} -{" "}
-                                {e.positions[0].finish !== null
-                                  ? new Date(
-                                      e.positions[0].finish
-                                    ).getFullYear()
+                                {new Date(pos.start).getFullYear()} -{" "}
+                                {pos.finish !== null
+                                  ? new Date(pos.finish).getFullYear()
                                   : "Present"}
                               </div>
                               <div className="profile__module-content-location">
-                                {e.location}
+                                {pos.location}
                               </div>
                               <div className="profile__module-content-description">
-                                {e.positions[0].description}
+                                {pos.description}
                               </div>
                             </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="profile__module-content">
+                          <div className="profile__module-content-logo">
+                            {e.companyLogo ? <img src={e.companyLogo} /> : null}
                           </div>
-                        )
+                          <div className="profile__module-content-info">
+                            <div className="profile__module-content-title">
+                              <span>{e.positions[0].title}</span>
+                              {editable ? (
+                                <button className="profile__module-content-edit">
+                                  <FontAwesomeIcon icon="pen" />
+                                </button>
+                              ) : null}
+                            </div>
+                            <div className="profile__module-content-subtitle">
+                              {e.company}
+                            </div>
+                            <div className="profile__module-content-time">
+                              {new Date(e.positions[0].start).getFullYear()} -{" "}
+                              {e.positions[0].finish !== null
+                                ? new Date(e.positions[0].finish).getFullYear()
+                                : "Present"}
+                            </div>
+                            <div className="profile__module-content-location">
+                              {e.location}
+                            </div>
+                            <div className="profile__module-content-description">
+                              {e.positions[0].description}
+                            </div>
+                          </div>
+                        </div>
+                      )
                     )}
                   </React.Fragment>
                 );
@@ -263,58 +255,27 @@ const ProfileModule = inject("commonStore", "userStore")(
                       title="Education"
                       addMore={true}
                     />
-                    {groupedEducations.map(
-                      (e: any) =>
-                        e.degrees.length > 1 ? (
-                          <div className="profile__module-content">
-                            <div className="profile__module-content-group-header">
-                              <div className="profile__module-content-logo">
-                                {e.logo ? <img src={e.logo} /> : null}
-                              </div>
-                              <div className="profile__module-content-info">
-                                <div className="profile__module-content-title">
-                                  {e.institute}
-                                </div>
-                                <div className="profile__module-content-subtitle">
-                                  {e.totalYear} years
-                                </div>
-                              </div>
-                            </div>
-                            {e.degrees.map((deg: any) => (
-                              <div className="profile__module-content-position">
-                                <div className="profile__module-content-title">
-                                  <span>
-                                    {deg.title}, {deg.department}, {deg.gpa}
-                                  </span>
-                                  {editable ? (
-                                    <button className="profile__module-content-edit">
-                                      <FontAwesomeIcon icon="pen" />
-                                    </button>
-                                  ) : null}
-                                </div>
-
-                                <div className="profile__module-content-time">
-                                  {new Date(deg.start).getFullYear()} -{" "}
-                                  {deg.finish !== null
-                                    ? new Date(deg.finish).getFullYear()
-                                    : "Present"}
-                                </div>
-                                <div className="profile__module-content-description">
-                                  {deg.description}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="profile__module-content">
+                    {groupedEducations.map((e: any) =>
+                      e.degrees.length > 1 ? (
+                        <div className="profile__module-content">
+                          <div className="profile__module-content-group-header">
                             <div className="profile__module-content-logo">
                               {e.logo ? <img src={e.logo} /> : null}
                             </div>
                             <div className="profile__module-content-info">
                               <div className="profile__module-content-title">
+                                {e.institute}
+                              </div>
+                              <div className="profile__module-content-subtitle">
+                                {e.totalYear} years
+                              </div>
+                            </div>
+                          </div>
+                          {e.degrees.map((deg: any) => (
+                            <div className="profile__module-content-position">
+                              <div className="profile__module-content-title">
                                 <span>
-                                  {e.degree[0].title}, {e.degree[0].department},{" "}
-                                  {e.degree[0].gpa}
+                                  {deg.title}, {deg.department}, {deg.gpa}
                                 </span>
                                 {editable ? (
                                   <button className="profile__module-content-edit">
@@ -322,21 +283,51 @@ const ProfileModule = inject("commonStore", "userStore")(
                                   </button>
                                 ) : null}
                               </div>
-                              <div className="profile__module-content-subtitle">
-                                {e.university}
-                              </div>
+
                               <div className="profile__module-content-time">
-                                {new Date(e.degrees[0].start).getFullYear()} -{" "}
-                                {e.degrees[0].finish !== null
-                                  ? new Date(e.degrees[0].finish).getFullYear()
+                                {new Date(deg.start).getFullYear()} -{" "}
+                                {deg.finish !== null
+                                  ? new Date(deg.finish).getFullYear()
                                   : "Present"}
                               </div>
                               <div className="profile__module-content-description">
-                                {e.degrees[0].description}
+                                {deg.description}
                               </div>
                             </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="profile__module-content">
+                          <div className="profile__module-content-logo">
+                            {e.logo ? <img src={e.logo} /> : null}
                           </div>
-                        )
+                          <div className="profile__module-content-info">
+                            <div className="profile__module-content-title">
+                              <span>
+                                {e.degree[0].title}, {e.degree[0].department},{" "}
+                                {e.degree[0].gpa}
+                              </span>
+                              {editable ? (
+                                <button className="profile__module-content-edit">
+                                  <FontAwesomeIcon icon="pen" />
+                                </button>
+                              ) : null}
+                            </div>
+                            <div className="profile__module-content-subtitle">
+                              {e.university}
+                            </div>
+                            <div className="profile__module-content-time">
+                              {new Date(e.degrees[0].start).getFullYear()} -{" "}
+                              {e.degrees[0].finish !== null
+                                ? new Date(e.degrees[0].finish).getFullYear()
+                                : "Present"}
+                            </div>
+                            <div className="profile__module-content-description">
+                              {e.degrees[0].description}
+                            </div>
+                          </div>
+                        </div>
+                      )
                     )}
                   </React.Fragment>
                 );

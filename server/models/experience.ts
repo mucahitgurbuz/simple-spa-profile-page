@@ -34,7 +34,7 @@ export default class Experience extends Model<Experience> {
 
   @AllowNull(true)
   @Column(DataType.STRING)
-  address: string;
+  location: string;
 
   @CreatedAt
   @Column

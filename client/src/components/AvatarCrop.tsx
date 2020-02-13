@@ -1,35 +1,35 @@
 // @ts-ignore
-import { Button, Modal, Slider } from 'antd';
-import React from 'react';
+import { Button, Modal, Slider } from "antd";
+import React from "react";
 // @ts-ignore
-import Cropper from 'react-easy-crop';
+import Cropper from "react-easy-crop";
 
 interface Crop {
-  x: number,
-  y: number,
-  width: number,
-  height: number
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 // return a promise that resolves with a File instance
 const createImage: (url: string) => Promise<HTMLImageElement> = url =>
   new Promise((resolve, reject) => {
     const image = new Image();
-    image.addEventListener('load', () => resolve(image));
-    image.addEventListener('error', error => reject(error));
-    image.setAttribute('crossOrigin', 'anonymous'); // needed to avoid cross-origin issues on CodeSandbox
+    image.addEventListener("load", () => resolve(image));
+    image.addEventListener("error", error => reject(error));
+    image.setAttribute("crossOrigin", "anonymous"); // needed to avoid cross-origin issues on CodeSandbox
     image.src = url;
   });
 
 async function getCroppedImg(imageSrc: string, pixelCrop: Crop): Promise<any> {
   const image: HTMLImageElement = await createImage(imageSrc);
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = pixelCrop.width;
   canvas.height = pixelCrop.height;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
   if (!ctx) {
-    return Promise.reject(new Error('Could not get canvas context'));
+    return Promise.reject(new Error("Could not get canvas context"));
   }
 
   ctx.drawImage(
@@ -44,29 +44,36 @@ async function getCroppedImg(imageSrc: string, pixelCrop: Crop): Promise<any> {
     pixelCrop.height
   );
 
-  const url = canvas.toDataURL('image/jpeg');
+  const url = canvas.toDataURL("image/jpeg");
 
   return new Promise(resolve => {
-    canvas.toBlob((blob: Blob): void => {
-      resolve(
-        [
-          new File([blob], 'fname.jpeg', { type: 'image/jpeg' }),
-          url
-        ]
-      )
-    },
-      'image/jpeg',
-      0.9);
+    canvas.toBlob(
+      (blob: Blob): void => {
+        resolve([new File([blob], "fname.jpeg", { type: "image/jpeg" }), url]);
+      },
+      "image/jpeg",
+      0.9
+    );
   });
 }
 
-interface AvatarCropProps { avatarUrl: string | undefined, onCropComplete: any, modalTitle: string };
-interface AvatarCropState { crop: { x: number, y: number }, zoom: number, aspect: number, croppedAreaPixels: Crop, visible: boolean };
+interface AvatarCropProps {
+  avatarUrl: string | undefined;
+  onCropComplete: any;
+  modalTitle: string;
+}
+interface AvatarCropState {
+  crop: { x: number; y: number };
+  zoom: number;
+  aspect: number;
+  croppedAreaPixels: Crop;
+  visible: boolean;
+}
 class AvatarCrop extends React.Component<AvatarCropProps, AvatarCropState> {
   public state = {
     crop: {
       x: 0,
-      y: 0,
+      y: 0
     },
     zoom: 1,
     aspect: 1,
@@ -74,11 +81,14 @@ class AvatarCrop extends React.Component<AvatarCropProps, AvatarCropState> {
     visible: false
   };
 
-  public onCropChange = (crop: { x: number, y: number }) => {
+  public onCropChange = (crop: { x: number; y: number }) => {
     this.setState({ crop });
   };
 
-  public onCropComplete = (croppedArea: { x: number, y: number }, croppedAreaPixels: Crop) => {
+  public onCropComplete = (
+    croppedArea: { x: number; y: number },
+    croppedAreaPixels: Crop
+  ) => {
     this.setState({ croppedAreaPixels });
   };
 
@@ -90,18 +100,21 @@ class AvatarCrop extends React.Component<AvatarCropProps, AvatarCropState> {
     if (!this.props.avatarUrl) {
       return;
     }
-    const [img, url] = await getCroppedImg(this.props.avatarUrl, this.state.croppedAreaPixels);
+    const [img, url] = await getCroppedImg(
+      this.props.avatarUrl,
+      this.state.croppedAreaPixels
+    );
     this.props.onCropComplete(url, img);
     this.hideModal();
   };
 
   public hideModal = () => {
     this.setState({ visible: false });
-  }
+  };
 
   public showModal = () => {
     this.setState({ visible: true });
-  }
+  };
 
   public render() {
     if (!this.props.avatarUrl) {
@@ -109,12 +122,16 @@ class AvatarCrop extends React.Component<AvatarCropProps, AvatarCropState> {
     }
     return (
       <Modal
-        align={{ why: "deprecated" }}
         title={this.props.modalTitle}
         bodyStyle={{ height: 350 }}
         visible={this.state.visible}
         footer={[
-          <Button key="done" onClick={this.cropImage} type="primary" htmlType="button">
+          <Button
+            key="done"
+            onClick={this.cropImage}
+            type="primary"
+            htmlType="button"
+          >
             Crop
           </Button>,
           <Button key="cancel" onClick={this.hideModal} htmlType="button">
@@ -145,7 +162,7 @@ class AvatarCrop extends React.Component<AvatarCropProps, AvatarCropState> {
             />
           </div>
         </div>
-      </Modal >
+      </Modal>
     );
   }
 }

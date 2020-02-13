@@ -2,7 +2,7 @@ module.exports = [
   {
     position: "Software Developer Team Lead",
     start: 1544562000000,
-    address: "Ankara, Turkiye",
+    location: "Ankara, Turkiye",
     ofId: 1,
     companyId: 1
   },
@@ -10,7 +10,7 @@ module.exports = [
     position: "Software Developer",
     start: 1510434000000,
     finish: 1544562000000,
-    address: "Ankara, Turkiye",
+    location: "Ankara, Turkiye",
     ofId: 1,
     companyId: 1
   },
@@ -18,7 +18,7 @@ module.exports = [
     position: "R&D Engineer",
     start: 1334178000000,
     finish: 1357941600000,
-    address: "Ankara, Turkiye",
+    location: "Ankara, Turkiye",
     ofId: 1,
     companyId: 3,
     description:
@@ -28,7 +28,7 @@ module.exports = [
     position: "Research and Development Assistant",
     start: 1581504666236,
     finish: 1581504666236,
-    address: "Ankara, Turkiye",
+    location: "Ankara, Turkiye",
     companyId: 2,
     ofId: 2,
     logo: "https://picsum.photos/100/100/?image=667"
