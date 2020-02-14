@@ -117,11 +117,6 @@ class LoginScreen extends React.Component<LoginScreenProps, {}> {
                 Homepage
               </Button>
             </Link>
-            <Link to="/register">
-              <Button htmlType="button" icon="user">
-                Register
-              </Button>
-            </Link>
           </div>
         </Form>
       </div>

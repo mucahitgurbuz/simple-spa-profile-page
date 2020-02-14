@@ -43,8 +43,6 @@ export class UserStore {
   @observable
   public loadingUserList: boolean;
   @observable
-  public updatingUser: boolean;
-  @observable
   public userList = [];
   @observable
   public currentUser: object;
@@ -87,38 +85,6 @@ export class UserStore {
       .finally(
         action(() => {
           this.loadingUser = false;
-        })
-      );
-  }
-
-  @action
-  public updateUser({
-    userCode,
-    fName,
-    lName,
-    avatar
-  }: {
-    userCode: string;
-    fName: string;
-    lName: string;
-    avatar?: File;
-  }) {
-    this.updatingUser = true;
-    this.profileError = null;
-    return agent.User.save(userCode, fName, lName, avatar)
-      .then(() => this.updateSelf())
-      .catch(
-        action((err: { response: { body: Body } }) => {
-          const responseBody = err.response.body;
-          this.profileError = {
-            type: responseBody.content,
-            details: responseBody.details
-          };
-        })
-      )
-      .finally(
-        action(() => {
-          this.updatingUser = false;
         })
       );
   }

@@ -526,8 +526,8 @@ body {
   width: 2px;
   content: "";
   position: absolute;
-  top: 0px;
-  bottom: 0px;
+  top: 10px;
+  bottom: 15px;
   left: 23px;
 }
 
@@ -753,4 +753,8 @@ input:checked + .slider:before {
 .app-header__theme-text {
   color: white;
   padding-right: 10px;
+}
+
+.app-header__logo img {
+  width: 50px;
 }

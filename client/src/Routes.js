@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
-import { Switch, Route, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { inject, observer } from "mobx-react";
+import { Switch, Route, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // pages
-import LoginScreen from './screens/Login';
-import HomeScreen from './screens/Home';
-import RegisterScreen from './screens/Register';
+import LoginScreen from "./screens/Login";
+import HomeScreen from "./screens/Home";
 
-import ProtectedRoute from './components/ProtectedRoute';
-import Layout from './components/Layout';
+import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./components/Layout";
 
 const withLayout = Child => {
   const WrappedComponent = props => (
@@ -21,13 +20,13 @@ const withLayout = Child => {
   return WrappedComponent;
 };
 
-@inject('userStore', 'commonStore')
+@inject("userStore", "commonStore")
 @withRouter
 @observer
 class Routes extends Component {
   static propTypes = {
     commonStore: PropTypes.object.isRequired,
-    userStore: PropTypes.object.isRequired,
+    userStore: PropTypes.object.isRequired
   };
   componentWillMount() {
     if (!this.props.commonStore.token) {
@@ -49,8 +48,11 @@ class Routes extends Component {
       return (
         <Switch>
           <Route path="/login" component={LoginScreen} />
-          <Route path="/register" component={RegisterScreen} />
-          <Route exact path="/" component={withLayout(HomeScreen)} />
+          {this.props.userStore.self ? (
+            <Route exact path="/" component={withLayout(HomeScreen)} />
+          ) : (
+            <Route path="/" component={LoginScreen} />
+          )}
         </Switch>
       );
     }

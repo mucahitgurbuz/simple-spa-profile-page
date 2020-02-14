@@ -1,11 +1,10 @@
-import { Request, Response } from 'express';
-import { Sequelize } from 'sequelize-typescript';
+import { Request, Response } from "express";
+import { Sequelize } from "sequelize-typescript";
 
-
-import { MulterFile } from './../../utils/uploadHandler';
-import User from './../../models/user';
-import imp from './../../utils/imp';
-import Photo from './../../models/photo';
+import { MulterFile } from "./../../utils/uploadHandler";
+import User from "./../../models/user";
+import imp from "./../../utils/imp";
+import Photo from "./../../models/photo";
 
 export default async (req: Request & { file: MulterFile }, res: Response) => {
   const { file, body } = req;
@@ -13,12 +12,12 @@ export default async (req: Request & { file: MulterFile }, res: Response) => {
   if (!file) {
     res.status(400).json({
       status: false,
-      content: 'validationError',
+      content: "validationError",
       details: [
         {
-          message: 'File with field name `avatar` is required.',
-        },
-      ],
+          message: "File with field name `avatar` is required."
+        }
+      ]
     });
     return;
   }
@@ -36,10 +35,10 @@ export default async (req: Request & { file: MulterFile }, res: Response) => {
 
     const newFilePaths = await imp.resampleUserImage(file.path);
 
-    if (typeof newFilePaths === 'string') {
+    if (typeof newFilePaths === "string") {
       res.status(415).send({
         status: false,
-        content: newFilePaths,
+        content: newFilePaths
       });
       return;
     }
@@ -48,7 +47,7 @@ export default async (req: Request & { file: MulterFile }, res: Response) => {
       where: {
         [Sequelize.Op.or]: [
           {
-            userCode: body.userCode,
+            userCode: body.userCode
           },
           {
             email: body.email
@@ -60,23 +59,25 @@ export default async (req: Request & { file: MulterFile }, res: Response) => {
     if (user) {
       res.status(400).send({
         status: false,
-        content: `userAlreadyExists`,
+        content: `userAlreadyExists`
       });
       return;
     }
 
-    await User.create({
-      ...body,
-      photo: {
-        thumbnailUrl: newFilePaths.thumbnail,
-        originalUrl: newFilePaths.original,
-      },
-    },
+    await User.create(
       {
-        include: [Photo],
-      });
+        ...body,
+        photo: {
+          thumbnailUrl: newFilePaths.thumbnail,
+          originalUrl: newFilePaths.original
+        }
+      },
+      {
+        include: [Photo]
+      }
+    );
 
-    res.status(200).json({ status: true, content: 1 })
+    res.status(200).json({ status: true, content: 1 });
   } catch (e) {
     console.error(e);
     res.status(500).send({ status: false, content: e.message });

@@ -82,8 +82,10 @@ const Header = inject(
         <div id="header" className="flex-row flex--aligned">
           <Link to="/">
             <div className="app-header flex-row flex--aligned">
-              <span className="app-header__logo">[Put logo here]</span>
-              <span className="app-header__title">App name here</span>
+              <span className="app-header__logo">
+                <img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png" />
+              </span>
+              <span className="app-header__title">SPA - Case Study</span>
             </div>
           </Link>
           <div className="flex-spacer" />
