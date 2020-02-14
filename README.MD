@@ -1,4 +1,4 @@
-Repository for Case Study for a developing SPA with React, Typescript, MobX, NodeJS. "client" folder handles frontend, "server" folder handles backend.
+Repository for Case Study of developing SPA with React, Typescript, MobX, NodeJS. "client" folder handles frontend, "server" folder handles backend.
 
 Use Node version 9.0.0 for a smooth experience.
 
