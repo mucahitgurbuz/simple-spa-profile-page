@@ -1,10 +1,10 @@
 {
-  "name": "optiwise",
+  "name": "SPA - Case Study",
   "version": "1.0.0",
-  "description": "Optimization Hub",
+  "description": "A fun experience with full stack development",
   "main": "server.ts",
-  "repository": "https://bitbucket.org/i4Source/optiwise",
-  "author": "turker.teke@i4.com.tr",
+  "repository": "https://github.com/mucahitgurbuz/simple-spa-profile-page",
+  "author": "contact@mucahit.me",
   "license": "MIT",
   "private": true,
   "scripts": {
